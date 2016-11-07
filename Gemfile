@@ -31,8 +31,6 @@ gem 'omniauth-github'
 #API Consumption
 gem 'httparty'
 
-gem 'active_shipping'
-
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
