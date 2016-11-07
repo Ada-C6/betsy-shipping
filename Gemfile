@@ -54,3 +54,7 @@ group :test do
   gem 'minitest-reporters'
   gem 'simplecov', :require => false
 end
+
+group :production do
+  gem 'rails_12factor'
+end
