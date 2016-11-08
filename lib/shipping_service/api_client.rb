@@ -1,3 +1,5 @@
+require 'httparty'
+
 module ShippingService::APIClient
 
   FAKE_METHOD_DATA = [
@@ -8,28 +10,38 @@ module ShippingService::APIClient
   ]
 
   BOX_SIZE = [15, 10, 4.5]
+  BASE_URL = "localhost:3210/"
 
   def methods_for_order(order)
-    packages = []
-    weight = 0
+    total_weight = 0
     order.orderitems.each do |o|
       product = Product.find(o.product_id)
-      weight += product.weight * o.quantity
+      total_weight += product.weight * o.quantity
     end
 
-    weight *= 16
+    package = {:weight = total_weight,
+                :box_size = BOX_SIZE}
 
-    shipping_details = {}
-    shipping_details[:weight] = weight
-    shipping_details[:box_size] = BOX_SIZE
-    shipping_details[:units] = 'units: :imperial'
+    origin = {country: 'US',
+                state: 'WA',
+                city: 'Seattle',
+                zip: '98161'
+              }
 
-    shipping_details[:origin] = {country: 'US', state: 'WA', city: 'Seattle', zip: '98161'}
+    destination = {country: 'US',
+                    state: order.state,
+                    city: order.city,
+                    zip: order.billing_zip
+                  }
 
-    shipping_details[:destination] = {country: 'US', state: order.state, city: order.city, zip: order.billing_zip}
+    query = {package: package, origin: origin, destination: destination}
+
+    url = BASE_URL + "search?query=#{ query }"
+    data = HTTParty.get(url)
+
 
     # ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    # 
+    #
     # # Check out USPS for comparison...
     # usps = ActiveShipping::USPS.new(login: '677JADED7283')
     # response = usps.find_rates(origin, destination, packages)

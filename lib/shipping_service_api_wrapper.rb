@@ -2,7 +2,7 @@ require 'httparty'
 
 class ShippingServiceApiWrapper
 
-  BASE_URL = "localhost:3210"
+  # BASE_URL = "localhost:3210"
 
   #  def self.listrecipes(keyword, page)
   #    url = BASE_URL + "search?q=#{ keyword }" + "&app_id=#{ TOKEN_ID }" + "&app_key=#{ TOKEN_KEYS }" + "&from=#{ (page.to_i - 1) * 10 }"
