@@ -12,6 +12,7 @@ first_order:
   credit_card_exp_date: 2018-05-02
   credit_card_cvv: 888
   billing_zip: 12345
+  
 
 second_order:
   status: Completed

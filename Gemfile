@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'httparty'
+gem 'vcr'
 
 ### RAILS ####
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
