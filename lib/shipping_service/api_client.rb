@@ -9,10 +9,20 @@ require 'httparty'
 
   def methods_for_order(order)
     weight = order.total_weight
-    # ORIGIN = "&origin_country=US&origin_state=WA&origin_city=Seattle&origin_zip=98104"
-    # BASE_URL = "https://animalswithnohats.herokuapp.com/"
-    # url = BASE_URL + "search?q=" + "#{weight}" + ORIGIN + "&destination_country=US" + "&destination_state=#{order.state}"  + "&destination_city=#{order.city}" + "&destination_zip=#{order.billing_zip}"
-    # info = HTTParty.get(url)
+    info = { weight: weight,
+    origin: {origin_country: "US",
+    origin_state: "WA",
+    origin_city: "Seattle",
+    origin_zip: "98104"},
+      destination: {
+      destination_country: "US",
+      destination_state: "#{order.state}",
+      destination_city: "#{order.city}",
+      destination_zip: "#{order.billing_zip}"}}.to_json
+
+    BASE_URL = "https://animalswithnohats.herokuapp.com/"
+    url = BASE_URL + "search?q=" + "#{weight}" + ORIGIN + "&destination_country=US" + "&destination_state=#{order.state}"  + "&destination_city=#{order.city}" + "&destination_zip=#{order.billing_zip}"
+    info = HTTParty.get(url)
     # ship = []
 
 
