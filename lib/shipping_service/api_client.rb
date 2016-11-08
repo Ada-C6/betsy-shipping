@@ -1,5 +1,3 @@
-require 'active_shipping'
-
 module ShippingService::APIClient
 
   FAKE_METHOD_DATA = [
@@ -9,32 +7,35 @@ module ShippingService::APIClient
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
 
-  BOX_SIZE: [15, 10, 4.5]
+  BOX_SIZE = [15, 10, 4.5]
 
   def methods_for_order(order)
     packages = []
+    weight = 0
     order.orderitems.each do |o|
       product = Product.find(o.product_id)
-      ActiveShipping::Package.new(product.weight * o.quantity * 16, BOX_SIZE, units: :imperial)
-      packages << product
+      weight += product.weight * o.quantity
     end
 
-    origin = ActiveShipping::Location.new(country: 'US', state: 'WA', city: 'Seattle', zip:'98104')
+    weight *= 16
 
-    destination = ActiveShipping::Location.new(country: 'US', state: order.state, city: order.city, zip: order.billing_zip)
+    shipping_details = {}
+    shipping_details[:weight] = weight
+    shipping_details[:box_size] = BOX_SIZE
+    shipping_details[:units] = 'units: :imperial'
 
-    ups = ActiveShipping::UPS.new(login: 'shopifolk', password: 'Shopify_rocks', key: '7CE85DED4C9D07AB')
-    response = ups.find_rates(origin, destination, packages)
+    shipping_details[:origin] = {country: 'US', state: 'WA', city: 'Seattle', zip: '98161'}
 
-    ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    shipping_details[:destination] = {country: 'US', state: order.state, city: order.city, zip: order.billing_zip}
 
-
-    # Check out USPS for comparison...
-    usps = ActiveShipping::USPS.new(login: '677JADED7283')
-    response = usps.find_rates(origin, destination, packages)
-
-    usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
-    # returns an array of usps options
+    # ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    # 
+    # # Check out USPS for comparison...
+    # usps = ActiveShipping::USPS.new(login: '677JADED7283')
+    # response = usps.find_rates(origin, destination, packages)
+    #
+    # usps_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
+    # # returns an array of usps options
 
     # # The real implementation should use the order's
     # # shipping details, calculate the weight of every
