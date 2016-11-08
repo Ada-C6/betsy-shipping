@@ -19,20 +19,11 @@ module ShippingService::APIClient
       total_weight += product.weight * o.quantity
     end
 
-    package = {:weight = total_weight,
-                :box_size = BOX_SIZE}
+    package = {weight: total_weight, box_size: BOX_SIZE}
 
-    origin = {country: 'US',
-                state: 'WA',
-                city: 'Seattle',
-                zip: '98161'
-              }
+    origin = {country: 'US', state: 'WA', city: 'Seattle', zip: '98161'}
 
-    destination = {country: 'US',
-                    state: order.state,
-                    city: order.city,
-                    zip: order.billing_zip
-                  }
+    destination = {country: 'US', state: order.state, city: order.city, zip: order.billing_zip}
 
     query = {package: package, origin: origin, destination: destination}
 

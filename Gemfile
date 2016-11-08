@@ -25,6 +25,9 @@ gem 'pg', '~> 0.15', group: :production
 # Otherwise, use sqlite
 gem 'sqlite3', group: [:development, :test]
 
+### API ###
+gem 'httparty'
+
 ### OAUTH ###
 gem 'omniauth-github'
 
