@@ -24,6 +24,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use postgresql as the database for Active Record in production only
 gem 'pg', '~> 0.15', group: :production
 
+group :production do
+  gem 'rails_12factor'
+end
+
 # Otherwise, use sqlite
 gem 'sqlite3', group: [:development, :test]
 
