@@ -7,27 +7,25 @@ module ShippingService::APIClient
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
 
+  BASE_URL = "https://ourapi.herokuapp.com/"
+  BASE_SEARCH = "&origin_country=US&origin_state=WA&origin_city=Seattle&origin_zip=98102&destination_country=US"
+
   def methods_for_order(order)
-    # total_weight in order.rb calculates weight
-    # API gives back shipping options, as in fake data above
-    # Billing zip code needs to be 5 digits - for now, just do that
-    # - weight (pounds)
-    # - origin_country = 'US'
-    # - origin_state = 'WA'
-    # - origin_city = 'Seattle'
-    # - origin_zip = '98102'
-    # - destination_country = 'US'
-    # - destination_state
-    # - destination_city
-    # - destination_zip
+    weight = Order.total_weight
+    url = BASE_URL + "search?q=" + "&weight=#{ weight }" + BASE_SEARCH + "&destination_state=#{ order.state }" + "&destination_city=#{ orders.city }" + "&destination_zip=#{ order.billing_zip }"
 
-    # Probably USPS - based on login information
+    data = HTTParty.get(url)
+    shipping_list = []
+    if data
+      data.each do |shipping|
+        wrapper = ShippingMethod.new shipping["id"], name: shipping["name"], cost: shipping["cost"]
+        shipping_list << wrapper
+      end
+    end
+    return shipping_list
 
 
-    # The real implementation should use the order's
-    # shipping details, calculate the weight of every
-    # product in the order, and send that info to the API
-    # along with a pre-defined "source" address.
+
     #
     # Instead we'll just return the fake data from above
     FAKE_METHOD_DATA.map do |data|
