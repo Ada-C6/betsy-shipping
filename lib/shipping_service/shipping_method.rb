@@ -13,7 +13,7 @@ class ShippingService::ShippingMethod
   end
 
   def self.ship(order = nil)
-    @shipping_methods ||= ApiClient.methods_for_order(order)
+    @shipping_methods ||= ShippingService::APIClient.methods_for_order(order)
   end
 
   def self.reset
