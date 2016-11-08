@@ -5,6 +5,16 @@ class ApiClientTest < ActiveSupport::TestCase
     assert true
   end
 
+  test "methods_for_order returns an array of shipping options" do
+    VCR.use_cassette("shipping_options") do
+      shipping_options = ShippingService::APIClient.methods_for_order(order)
+      assert_kind_of Array, shipping_options
+      shipping_options.each do |option|
+        assert_kind_of ShippingOption, shipping_option
+      end
+    end
+  end
+
   # test "listrecipes returns an array of recipes" do
   #   VCR.use_cassette("recipes") do
   #     recipes = EdamamApiWrapper.listrecipes("chicken", 1)
