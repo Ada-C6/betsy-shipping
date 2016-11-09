@@ -18,7 +18,6 @@ module ShippingService::APIClient
       end
     end
     return shipping_list
-
   end
 
   def get_method(id)

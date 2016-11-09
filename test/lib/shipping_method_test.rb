@@ -35,7 +35,7 @@ class ShippingMethodTest < ActiveSupport::TestCase
     assert_nil s
   end
 
-  
+
   # This is failing and I don't know why.
   # test "self.ship will return shipping methods for that order" do
   #   order = Order.new
