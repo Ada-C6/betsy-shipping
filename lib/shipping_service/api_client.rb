@@ -12,7 +12,8 @@ module ShippingService::APIClient
     # shipping details, calculate the weight of every
     # product in the order, and send that info to the API
     # along with a pre-defined "source" address.
-    #
+    #total_weight=order.products.inject(0){ |sum, item| item.weight + sum }
+
     # Instead we'll just return the fake data from above
     FAKE_METHOD_DATA.map do |data|
       method_from_data(data)
