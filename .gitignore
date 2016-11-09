@@ -16,6 +16,9 @@
 !/log/.keep
 /tmp
 
+# Ignore cassettes
+/test/cassettes
+
 # Ignore simplecov files
 /coverage
 
