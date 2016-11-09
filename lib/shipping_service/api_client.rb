@@ -13,7 +13,7 @@ module ShippingService::APIClient
     shipping_list = []
     if data
       data.parsed_response.each do |shipping|
-        wrapper = ShippingService::ShippingMethod.new(shipping["id"], shipping["name"], shipping["cost"])
+        wrapper = ShippingService::ShippingMethod.new(shipping["id"], shipping["name"], shipping["cost"]/100)
         shipping_list << wrapper
       end
     end
