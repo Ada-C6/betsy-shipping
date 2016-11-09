@@ -6,7 +6,7 @@ module ShippingService::APIClient
   BASE_SEARCH = "&origin_country=US&origin_state=WA&origin_city=Seattle&origin_zip=98122&destination_country=US"
 
   def methods_for_order(order)
-    weight = order.total_weight
+    weight = (order.total_weight) * 16 # Gives weight in ounces for shipment purposes
     url = BASE_URL + "search?" + "weight=#{ weight }" + BASE_SEARCH + "&destination_state=#{ order.state }" + "&destination_city=#{ order.city }" + "&destination_zip=#{ order.billing_zip }"
 
     data = HTTParty.get(url)
@@ -46,11 +46,7 @@ module ShippingService::APIClient
     if id.nil?
       raise ShippingService::ShippingMethodNotFound.new
     end
-
-    # Ummmmm ... this might work???
-    # shipping_method_id.select { |data| data[:id] == id.to_i }.first
-
-    FAKE_METHOD_DATA.select { |data| data[:id] == id.to_i }.first
+    shipping_method_id.select { |data| data[:id] == id.to_i }.first
   end
 
   def method_from_data(data)
