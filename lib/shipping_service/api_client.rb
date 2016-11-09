@@ -29,7 +29,9 @@ module ShippingService::APIClient
 
     url = BASE_URL
     # url = BASE_URL + "?package=#{package.to_json}&destination=#{destination.to_json}"
-    data = HTTParty.post(url, body: query)
+    data = HTTParty.post(url, body: query.to_json)
+    raise
+    # raise
 
 
     # ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}

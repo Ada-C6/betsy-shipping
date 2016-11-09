@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
   def shipping_select
     @order = current_order
     @shipping_methods = ShippingService.methods_for_order(current_order)
-    raise
+    # raise
   end
 
   def shipping_set
