@@ -10,7 +10,7 @@ module ShippingService::APIClient
   ]
 
   BOX_SIZE = [15, 10, 4.5]
-  BASE_URL = "localhost:3210/"
+  BASE_URL = "http://localhost:3210/"
 
   def methods_for_order(order)
     total_weight = 0
@@ -21,14 +21,15 @@ module ShippingService::APIClient
 
     package = {weight: total_weight, box_size: BOX_SIZE}
 
-    origin = {country: 'US', state: 'WA', city: 'Seattle', zip: '98161'}
+    # origin = {country: 'US', state: 'WA', city: 'Seattle', zip: '98161'}
 
     destination = {country: 'US', state: order.state, city: order.city, zip: order.billing_zip}
 
-    query = {package: package, origin: origin, destination: destination}
+    query = {package: package, destination: destination}
 
-    url = BASE_URL + "search?query=#{ query }"
-    data = HTTParty.get(url)
+    url = BASE_URL
+    # url = BASE_URL + "?package=#{package.to_json}&destination=#{destination.to_json}"
+    data = HTTParty.post(url, body: query)
 
 
     # ups_rates = response.rates.sort_by(&:price).collect {|rate| [rate.service_name, rate.price]}
