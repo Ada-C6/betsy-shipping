@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
     @item = Product.find(@product[0])
     @thing = @item[0]
     @weight = @thing.weight
-    @shipping_methods = ShippingService.methods_for_order(current_order, @weight)
+    @shipping_methods = ShippingService.methods_for_order(currentorder, @weight)
   end
 
   def shipping_set
