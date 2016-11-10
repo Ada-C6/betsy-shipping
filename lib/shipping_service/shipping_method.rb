@@ -1,10 +1,10 @@
 class ShippingService::ShippingMethod
 
-  attr_reader :id, :name, :cost
+  attr_reader :service_name, :cost, :id
 
-  def initialize(id, name, cost)
-    @id = id
-    @name = name
-    @cost = cost
+	def initialize(details)
+		@service_name = details[:carrier_service]
+    @cost = details[:carrier_rate]
+    @id = details[:service_code]
   end
 end
