@@ -28,6 +28,8 @@ gem 'sqlite3', group: [:development, :test]
 ### OAUTH ###
 gem 'omniauth-github'
 
+gem 'httparty'
+
 
 group :development, :test do
   gem 'dotenv-rails'

@@ -6,6 +6,7 @@ require 'httparty'
     {id: 3, name: "FedEx Ground", cost: 20.17},
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
+  BASE_URL = "http://localhost:3020/shipping_quotes/"
 
   def methods_for_order(order)
     weight = order.total_weight
@@ -20,9 +21,9 @@ require 'httparty'
       destination_city: "#{order.city}",
       destination_zip: "#{order.billing_zip}"}}.to_json
 
-    BASE_URL = "https://animalswithnohats.herokuapp.com/"
-    url = BASE_URL + "search?q=" + "#{weight}" + ORIGIN + "&destination_country=US" + "&destination_state=#{order.state}"  + "&destination_city=#{order.city}" + "&destination_zip=#{order.billing_zip}"
-    info = HTTParty.get(url)
+
+    url = BASE_URL
+    info = HTTParty.post(url, body: info, headers: {"Content-Type": 'application/json'})
     # ship = []
 
 
