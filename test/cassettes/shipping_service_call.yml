@@ -1,0 +1,172 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://localhost:3001/shipping_quotes
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"name":"Person","weight":3.5,"length":13,"width":2.5,"height":8,"country":"US","state":"AK","city":"Anchorage","postal_code":99501}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 500
+      message: 'Internal Server Error '
+    headers:
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Request-Id:
+      - 4d2b1cc0-49f9-4745-8390-a6d0b0e24133
+      X-Runtime:
+      - '1.740205'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.1/2016-04-26)
+      Date:
+      - Thu, 10 Nov 2016 22:42:02 GMT
+      Content-Length:
+      - '6615'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: "ActiveShipping::ResponseError at /shipping_quotes\n=================================================\n\n>
+        Failure: The requested service is unavailable between the selected locations.\n\nlib/shipment.rb,
+        line 32\n------------------------\n\n``` ruby\n   27       ActiveShipping::Package.new(weight
+        * 16, [length, width, height], units: :imperial)\n   28     end\n   29   \n
+        \  30     def self.ups_rates(origin, destination, package)\n   31       ups
+        = ActiveShipping::UPS.new(login: ENV['ACTIVESHIPPING_UPS_LOGIN'], password:
+        ENV['ACTIVESHIPPING_UPS_PASSWORD'], key: ENV['ACTIVESHIPPING_UPS_KEY'])\n>
+        \ 32       response = ups.find_rates(origin, destination, package)\n   33
+        \      response.rates.sort_by(&:price)\n   34     end\n   35   \n   36     def
+        self.usps_rates(origin, destination, package)\n   37       usps = ActiveShipping::USPS.new(login:
+        ENV['ACTIVESHIPPING_USPS_LOGIN'])\n```\n\nApp backtrace\n-------------\n\n
+        - lib/shipment.rb:32:in `ups_rates'\n - app/controllers/shipments_controller.rb:47:in
+        `index'\n\nFull backtrace\n--------------\n\n - active_shipping (1.8.3) lib/active_shipping/response.rb:27:in
+        `initialize'\n - active_shipping (1.8.3) lib/active_shipping/rate_response.rb:27:in
+        `initialize'\n - active_shipping (1.8.3) lib/active_shipping/carriers/ups.rb:798:in
+        `parse_rate_response'\n - active_shipping (1.8.3) lib/active_shipping/carriers/ups.rb:159:in
+        `find_rates'\n - lib/shipment.rb:32:in `ups_rates'\n - app/controllers/shipments_controller.rb:47:in
+        `index'\n - actionpack (4.2.7) lib/abstract_controller/base.rb:198:in `process_action'\n
+        - actionpack (4.2.7) lib/action_controller/metal/rendering.rb:10:in `process_action'\n
+        - actionpack (4.2.7) lib/abstract_controller/callbacks.rb:20:in `block in
+        process_action'\n - activesupport (4.2.7) lib/active_support/callbacks.rb:117:in
+        `call'\n - activesupport (4.2.7) lib/active_support/callbacks.rb:555:in `block
+        (2 levels) in compile'\n - activesupport (4.2.7) lib/active_support/callbacks.rb:505:in
+        `call'\n - activesupport (4.2.7) lib/active_support/callbacks.rb:92:in `__run_callbacks__'\n
+        - activesupport (4.2.7) lib/active_support/callbacks.rb:778:in `_run_process_action_callbacks'\n
+        - activesupport (4.2.7) lib/active_support/callbacks.rb:81:in `run_callbacks'\n
+        - actionpack (4.2.7) lib/abstract_controller/callbacks.rb:19:in `process_action'\n
+        - actionpack (4.2.7) lib/action_controller/metal/rescue.rb:29:in `process_action'\n
+        - actionpack (4.2.7) lib/action_controller/metal/instrumentation.rb:32:in
+        `block in process_action'\n - activesupport (4.2.7) lib/active_support/notifications.rb:164:in
+        `block in instrument'\n - activesupport (4.2.7) lib/active_support/notifications/instrumenter.rb:20:in
+        `instrument'\n - activesupport (4.2.7) lib/active_support/notifications.rb:164:in
+        `instrument'\n - actionpack (4.2.7) lib/action_controller/metal/instrumentation.rb:30:in
+        `process_action'\n - activerecord (4.2.7) lib/active_record/railties/controller_runtime.rb:18:in
+        `process_action'\n - actionpack (4.2.7) lib/abstract_controller/base.rb:137:in
+        `process'\n - actionview (4.2.7) lib/action_view/rendering.rb:30:in `process'\n
+        - actionpack (4.2.7) lib/action_controller/metal.rb:196:in `dispatch'\n -
+        actionpack (4.2.7) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'\n
+        - actionpack (4.2.7) lib/action_controller/metal.rb:237:in `block in action'\n
+        - actionpack (4.2.7) lib/action_dispatch/routing/route_set.rb:74:in `dispatch'\n
+        - actionpack (4.2.7) lib/action_dispatch/routing/route_set.rb:43:in `serve'\n
+        - actionpack (4.2.7) lib/action_dispatch/journey/router.rb:43:in `block in
+        serve'\n - actionpack (4.2.7) lib/action_dispatch/journey/router.rb:30:in
+        `serve'\n - actionpack (4.2.7) lib/action_dispatch/routing/route_set.rb:817:in
+        `call'\n - rack (1.6.4) lib/rack/etag.rb:24:in `call'\n - rack (1.6.4) lib/rack/conditionalget.rb:38:in
+        `call'\n - rack (1.6.4) lib/rack/head.rb:13:in `call'\n - actionpack (4.2.7)
+        lib/action_dispatch/middleware/params_parser.rb:27:in `call'\n - activerecord
+        (4.2.7) lib/active_record/query_cache.rb:36:in `call'\n - activerecord (4.2.7)
+        lib/active_record/connection_adapters/abstract/connection_pool.rb:653:in `call'\n
+        - activerecord (4.2.7) lib/active_record/migration.rb:377:in `call'\n - actionpack
+        (4.2.7) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'\n
+        - activesupport (4.2.7) lib/active_support/callbacks.rb:88:in `__run_callbacks__'\n
+        - activesupport (4.2.7) lib/active_support/callbacks.rb:778:in `_run_call_callbacks'\n
+        - activesupport (4.2.7) lib/active_support/callbacks.rb:81:in `run_callbacks'\n
+        - actionpack (4.2.7) lib/action_dispatch/middleware/callbacks.rb:27:in `call'\n
+        - actionpack (4.2.7) lib/action_dispatch/middleware/reloader.rb:73:in `call'\n
+        - actionpack (4.2.7) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:84:in `protected_app_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:79:in `better_errors_call'\n
+        - better_errors (2.1.1) lib/better_errors/middleware.rb:57:in `call'\n - actionpack
+        (4.2.7) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'\n
+        - web-console (2.3.0) lib/web_console/middleware.rb:28:in `block in call'\n
+        - web-console (2.3.0) lib/web_console/middleware.rb:18:in `call'\n - actionpack
+        (4.2.7) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'\n -
+        railties (4.2.7) lib/rails/rack/logger.rb:38:in `call_app'\n - railties (4.2.7)
+        lib/rails/rack/logger.rb:20:in `block in call'\n - activesupport (4.2.7) lib/active_support/tagged_logging.rb:68:in
+        `block in tagged'\n - activesupport (4.2.7) lib/active_support/tagged_logging.rb:26:in
+        `tagged'\n - activesupport (4.2.7) lib/active_support/tagged_logging.rb:68:in
+        `tagged'\n - railties (4.2.7) lib/rails/rack/logger.rb:20:in `call'\n - actionpack
+        (4.2.7) lib/action_dispatch/middleware/request_id.rb:21:in `call'\n - rack
+        (1.6.4) lib/rack/runtime.rb:18:in `call'\n - activesupport (4.2.7) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in
+        `call'\n - rack (1.6.4) lib/rack/lock.rb:17:in `call'\n - actionpack (4.2.7)
+        lib/action_dispatch/middleware/static.rb:120:in `call'\n - railties (4.2.7)
+        lib/rails/engine.rb:518:in `call'\n - railties (4.2.7) lib/rails/application.rb:165:in
+        `call'\n - rack (1.6.4) lib/rack/lock.rb:17:in `call'\n - rack (1.6.4) lib/rack/content_length.rb:15:in
+        `call'\n - rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'\n - /Users/nurl/.rvm/rubies/ruby-2.3.1/lib/ruby/2.3.0/webrick/httpserver.rb:140:in
+        `service'\n - /Users/nurl/.rvm/rubies/ruby-2.3.1/lib/ruby/2.3.0/webrick/httpserver.rb:96:in
+        `run'\n - /Users/nurl/.rvm/rubies/ruby-2.3.1/lib/ruby/2.3.0/webrick/server.rb:296:in
+        `block in start_thread'\n\n"
+    http_version: 
+  recorded_at: Thu, 10 Nov 2016 22:42:02 GMT
+- request:
+    method: post
+    uri: http://localhost:3001/shipping_quotes
+    body:
+      encoding: UTF-8
+      string: '{"id":1,"name":"Person","weight":3.5,"length":13,"width":2.5,"height":8,"country":"US","state":"AK","city":"Anchorage","billing_zip":99501}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: 'OK '
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1c041a9722b6e8fec78772165275d2b9"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f367f606-0e04-4204-bf67-b4426de703e2
+      X-Runtime:
+      - '1.565909'
+      Server:
+      - WEBrick/1.3.1 (Ruby/2.3.1/2016-04-26)
+      Date:
+      - Thu, 10 Nov 2016 22:55:17 GMT
+      Content-Length:
+      - '1026'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"ups_rates":[{"carrier":"UPS","service_name":"UPS Ground","total_price":4035},{"carrier":"UPS","service_name":"UPS
+        Second Day Air","total_price":5682},{"carrier":"UPS","service_name":"UPS Next
+        Day Air","total_price":10002},{"carrier":"UPS","service_name":"UPS Next Day
+        Air Early A.M.","total_price":13122}],"usps_rates":[{"carrier":"USPS","service_name":"USPS
+        Library Mail Parcel","total_price":386},{"carrier":"USPS","service_name":"USPS
+        Media Mail Parcel","total_price":405},{"carrier":"USPS","service_name":"USPS
+        Priority Mail 3-Day Medium Flat Rate Box","total_price":1345},{"carrier":"USPS","service_name":"USPS
+        Retail Ground","total_price":1585},{"carrier":"USPS","service_name":"USPS
+        Priority Mail 3-Day","total_price":1800},{"carrier":"USPS","service_name":"USPS
+        Priority Mail 3-Day Large Flat Rate Box","total_price":1875},{"carrier":"USPS","service_name":"USPS
+        Priority Mail Express 2-Day","total_price":5040},{"carrier":"USPS","service_name":"USPS
+        Priority Mail Express 2-Day Hold For Pickup","total_price":5040}]}'
+    http_version: 
+  recorded_at: Thu, 10 Nov 2016 22:55:17 GMT
+recorded_with: VCR 3.0.3
