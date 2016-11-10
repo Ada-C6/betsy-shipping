@@ -9,6 +9,8 @@ module ShippingService::APIClient
  #  end
  	BASE_URL = "https://shipping-service-api.herokuapp.com/shipping/usps?"
 
+
+
   def methods_for_order(order, weight)
     # The real implementation should use the order's
     # shipping details, calculate the weight of every
@@ -48,7 +50,7 @@ module ShippingService::APIClient
     # shipping method.
     #
     # Instead we'll just return the fake data from above
-    data = data_for_id(id)
+    data = data_for_id(id)  #METHOD IS BELOW
     if data.nil?
       raise ShippingService::ShippingMethodNotFound.new
     end
