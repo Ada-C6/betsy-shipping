@@ -45,7 +45,11 @@ class OrdersController < ApplicationController
 
   def shipping_select
     @order = current_order
-    @shipping_methods = ShippingService.methods_for_order(current_order)
+    @product = @order.orderitems.product
+    @item = Product.find(@product[0])
+    @thing = @item[0]
+    @weight = @thing.weight
+    @shipping_methods = ShippingService.methods_for_order(current_order, @weight)
   end
 
   def shipping_set
