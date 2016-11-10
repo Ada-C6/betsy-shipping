@@ -33,7 +33,7 @@ module ShippingService::APIClient
  			details[:carrier_service] = shipping_option["service_name"]
  			details[:carrier_rate] = shipping_option["package_rates"][-1]["rate"]
  			details[:id] = shipping_option["service_code"]
- 			estimate = ShippingService::ShippingMethod.new(details)
+ 			estimate = ShippingService.new(details)
 
  			# estimate = ShippingEstimate.new(shipping_option)
  			options << estimate
@@ -69,6 +69,6 @@ module ShippingService::APIClient
   end
 
   def method_from_data(data)
-    ShippingService::ShippingMethod.new(data[:id], data[:name], data[:cost])
+    ShippingService.new(data[:id], data[:name], data[:cost])
   end
 end
