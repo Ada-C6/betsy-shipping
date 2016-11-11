@@ -12,7 +12,7 @@ module ShippingService::APIClient
 
 
   def methods_for_order(order)
-    options = HTTParty.post("http://localhost:3001/shipping_quotes",
+    options = HTTParty.post("https://serene-plateau-94831.herokuapp.com/shipping_quotes",
       { :body => order.to_json,
         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}  })
     return options.to_hash
