@@ -1,7 +1,22 @@
 <h1>Complete your purchase:</h1>
 
+<h4> Do you have a preferred carrier? </h4>
+
+<%= form_tag shipping_order_path, method: :get do %>
+    <%= label_tag :carrier_name %>
+    <%= select_tag(:carrier_name, options_for_select([["All", nil], ['UPS', 'ups'], ['USPS', 'usps'], ['FedEx', 'fedex']])) %>
+    <%= submit_tag "Find Rates", class: "btn btn-success" %>
+<% end %>
+
 <h4>Please select one of the following shipping options:</h4><br>
-<%= form_tag shipping_order_path, method: :patch, :class => "form-horizontal center" do %>
+<%= form_tag shipping_order_path,{method: :patch, params["shipping_methods"] => @shipping_methods, :class => "form-horizontal center"} do %>
+  <%= hidden_field_tag :carrier_name, @carrier_name%>
+  <!-- <%= hidden_field_tag "shipping_methods[]", @shipping_methods %> -->
+  <!-- <% @shipping_methods.map do |method| %>
+    <%= hidden_field_tag "shipping_methods[]", method %>
+  <% end %> -->
+
+
   <% @shipping_methods.each do |method| %>
     <div class="form-group">
       <%= label_tag :shipping_method_id, shipping_method_display(method), class: "col-xs-4 control-label" %>
@@ -10,6 +25,5 @@
       </div>
     </div>
   <% end %>
-
   <%= submit_tag "Complete Purchase", class: "btn btn-success" %>
 <% end %>

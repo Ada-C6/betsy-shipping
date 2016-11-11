@@ -7,43 +7,69 @@ module ShippingService::APIClient
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
 
+  BASE_URL = "https://nj-shipping-api.herokuapp.com"
+
   def methods_for_order(order)
-    # The real implementation should use the order's
-    # shipping details, calculate the weight of every
-    # product in the order, and send that info to the API
-    # along with a pre-defined "source" address.
-    #
-    # Instead we'll just return the fake data from above
-    FAKE_METHOD_DATA.map do |data|
-      method_from_data(data)
-    end
+    destination = {city: order.city, state: order.state, zip: order.billing_zip, country: 'US'}
+    origin = {city: 'Beverly Hills', state: 'CA', zip: '90210', country: 'US'}
+    packages = {weight: order.total_weight, size: [10,10,10]}
+
+    url = BASE_URL + "/shippings"
+
+    data = HTTParty.get(url,
+      query: {
+        "packages" => "#{packages}",
+        "origin" => "#{origin}",
+        "destination" => "#{destination}"
+      })
+
+    response = data.parsed_response
+    mapped = response.map.with_index {|datum, i|  method_from_data(i, datum)}
+    return mapped
   end
 
-  def get_method(id)
-    # The real implementation should send this ID off to
-    # the API and get back the details for a specific
-    # shipping method.
-    #
-    # Instead we'll just return the fake data from above
-    data = data_for_id(id)
+
+  def get_method(carrier_name, order)
+    carrier = carrier_name
+    destination = {city: order.city, state: order.state, zip: order.billing_zip, country: 'US'}
+    origin = {city: 'Beverly Hills', state: 'CA', zip: '90210', country: 'US'}
+    packages = {weight: order.total_weight, size: [10,10,10]}
+
+    url = BASE_URL + "/shippings/#{carrier}"
+
+    data = HTTParty.get(url,
+      query: {
+        "packages" => "#{packages}",
+        "origin" => "#{origin}",
+        "destination" => "#{destination}"
+      })
+
+    response = data.parsed_response
+    mapped = response.map.with_index {|datum, i|  method_from_data(i, datum)}
+    return mapped
+  end
+
+  def method_select(id, shipping_methods)
+    data = data_for_id(id, shipping_methods)
     if data.nil?
       raise ShippingService::ShippingMethodNotFound.new
     end
 
-    method_from_data(data)
+    data
   end
 
   private
 
-  def data_for_id(id)
+  def data_for_id(id, shipping_methods)
+
     if id.nil?
       raise ShippingService::ShippingMethodNotFound.new
     end
 
-    FAKE_METHOD_DATA.select { |data| data[:id] == id.to_i }.first
+    shipping_methods.select { |data| data.id == id.to_i }.first
   end
 
-  def method_from_data(data)
-    ShippingService::ShippingMethod.new(data[:id], data[:name], data[:cost])
+  def method_from_data(i, data)
+    ShippingService::ShippingMethod.new(i, data[0], data[1])
   end
 end
