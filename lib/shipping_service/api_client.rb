@@ -1,19 +1,39 @@
 module ShippingService::APIClient
-
+require 'httparty'
   FAKE_METHOD_DATA = [
     {id: 1, name: "UPS Ground", cost: 20.41},
     {id: 2, name: "UPS Second Day Air", cost: 82.71},
     {id: 3, name: "FedEx Ground", cost: 20.17},
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
+  BASE_URL = "http://localhost:3020/shipping_quotes/"
 
   def methods_for_order(order)
+    weight = order.total_weight
+    info = { weight: weight,
+    origin: {origin_country: "US",
+    origin_state: "WA",
+    origin_city: "Seattle",
+    origin_zip: "98104"},
+      destination: {
+      destination_country: "US",
+      destination_state: "#{order.state}",
+      destination_city: "#{order.city}",
+      destination_zip: "#{order.billing_zip}"}}.to_json
+
+
+    url = BASE_URL
+    info = HTTParty.post(url, body: info, headers: {"Content-Type": 'application/json'})
+    # ship = []
+
+
     # The real implementation should use the order's
     # shipping details, calculate the weight of every
     # product in the order, and send that info to the API
     # along with a pre-defined "source" address.
     #
     # Instead we'll just return the fake data from above
+
     FAKE_METHOD_DATA.map do |data|
       method_from_data(data)
     end

@@ -21,6 +21,7 @@
 
 # Ignore dotenv environment file
 /.env.local
+.env
 
 
 # From https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
