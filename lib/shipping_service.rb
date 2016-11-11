@@ -24,7 +24,6 @@ class ShippingService
     url = BASE_URL
     info = HTTParty.post(url, body: info, headers: ["Content-Type"])
     # ship = []
-raise
 
     # The real implementation should use the order's
     # shipping details, calculate the weight of every
@@ -32,6 +31,7 @@ raise
     # along with a pre-defined "source" address.
     #
     # Instead we'll just return the fake data from above
+    
 
     FAKE_METHOD_DATA.map do |data|
       method_from_data(data)
