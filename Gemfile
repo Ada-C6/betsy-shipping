@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
+gem 'httparty'
+gem 'vcr'
+
 ### RAILS ####
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.7'
@@ -22,28 +25,29 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use postgresql as the database for Active Record in production only
 gem 'pg', '~> 0.15', group: :production
 
+group :production do
+  gem 'rails_12factor'
+end
+
 # Otherwise, use sqlite
 gem 'sqlite3', group: [:development, :test]
 
 ### OAUTH ###
 gem 'omniauth-github'
 
-
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
+  gem 'better_errors'
+  gem 'minitest-vcr'
+  gem 'webmock'
+  gem 'simplecov'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
-  gem 'better_errors'
-  gem 'binding_of_caller'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-end
-
-group :test do
-  gem 'simplecov', :require => false
 end

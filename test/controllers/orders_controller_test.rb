@@ -16,30 +16,38 @@ class OrdersControllerTest < ActionController::TestCase
     end
 
     test "should respond success" do
-      send_request
+      VCR.use_cassette("shipping_methods") do
+        send_request
 
-      assert_response :success
+        assert_response :success
+      end
     end
 
     test "should render appropriate view template" do
-      send_request
+      VCR.use_cassette("shipping_methods") do
+        send_request
 
-      assert_template :shipping_select
+        assert_template :shipping_select
+      end
     end
 
     test "should ignore id parameter" do
-      send_request id: 35275
+      VCR.use_cassette("shipping_methods") do
+        send_request id: 35275
 
-      assert_equal @order, assigns(:order)
+        assert_equal @order, assigns(:order)
+      end
     end
 
     test "should set shipping method options" do
-      send_request
+      VCR.use_cassette("shipping_methods") do
+        send_request
 
-      assert_not_nil assigns(:shipping_methods)
-      assert_kind_of Array, assigns(:shipping_methods)
-      assert assigns(:shipping_methods).all? do |method|
-        method.kind_of? ShippingMethod
+        assert_not_nil assigns(:shipping_methods)
+        assert_kind_of Array, assigns(:shipping_methods)
+        assert assigns(:shipping_methods).all? do |method|
+          method.kind_of? ShippingMethod
+        end
       end
     end
   end
@@ -70,21 +78,25 @@ class OrdersControllerTest < ActionController::TestCase
       end
 
       test "should redirect to confirmation page" do
-        send_request
+        VCR.use_cassette("shipping_methods") do
+          send_request
 
-        assert_response :redirect
-        assert_redirected_to order_confirmation_path(@order)
+          assert_response :redirect
+          assert_redirected_to order_confirmation_path(@order)
+        end
       end
 
       test "should set shipping options on order" do
-        assert_not_equal @selected_method.name, @order.shipping_name
-        assert_not_equal @selected_method.cost, @order.shipping_cost
+        VCR.use_cassette("shipping_methods") do
+          assert_not_equal @selected_method.name, @order.shipping_name
+          assert_not_equal @selected_method.cost, @order.shipping_cost
 
-        send_request
+          send_request
 
-        @order.reload
-        assert_equal @selected_method.name, @order.shipping_name
-        assert_equal @selected_method.cost, @order.shipping_cost
+          @order.reload
+          assert_equal @selected_method.name, @order.shipping_name
+          assert_equal @selected_method.cost, @order.shipping_cost
+        end
       end
     end
 
@@ -102,12 +114,16 @@ class OrdersControllerTest < ActionController::TestCase
       end
 
       test "should redirect to shipping selection page when bad id selected" do
-        bad_id = @shipping_methods.map { |s| s.id }.max * 2
-        test_bad_request(bad_id)
+        VCR.use_cassette("shipping_methods") do
+          bad_id = @shipping_methods.map { |s| s.id }.max * 2
+          test_bad_request(bad_id)
+        end
       end
 
       test "should redirect to shipping selection page when nil/no id selected" do
-        test_bad_request(nil)
+        VCR.use_cassette("shipping_methods") do
+          test_bad_request(nil)
+        end
       end
     end
   end

@@ -9,6 +9,7 @@ dog_pirate:
   status: Pending
   user: dog_merchant
   animal: Dog
+  weight: 3.4
 
 sushi_cat:
   name: Sushi Cat
@@ -20,3 +21,4 @@ sushi_cat:
   status: Pending
   user: cat_merchant
   animal: Cat
+  weight: 3.2
