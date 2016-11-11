@@ -6,6 +6,8 @@ ruby '2.3.1'
 gem 'rails', '4.2.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+
+gem 'httparty'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -24,6 +26,11 @@ gem 'pg', '~> 0.15', group: :production
 
 # Otherwise, use sqlite
 gem 'sqlite3', group: [:development, :test]
+
+
+# Connects with shipping companies
+gem 'active_shipping'
+
 
 ### OAUTH ###
 gem 'omniauth-github'

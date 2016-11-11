@@ -38,7 +38,8 @@ class Order < ActiveRecord::Base
   # the name of the service and the cost
   def shipping_method=(method)
     raise ArgumentError.new("method cannot be nil") unless method.present?
-    self.shipping_name = method.name
+    self.shipping_name = method.service_name
     self.shipping_cost = method.cost
+    self.shipping_method_id = method.id
   end
 end
