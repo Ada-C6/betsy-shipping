@@ -28,22 +28,32 @@ gem 'sqlite3', group: [:development, :test]
 ### OAUTH ###
 gem 'omniauth-github'
 
+#API Consumption
+gem 'httparty'
 
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
+  gem 'minitest-vcr'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'webmock'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :test do
+  gem 'minitest-reporters'
   gem 'simplecov', :require => false
+end
+
+group :production do
+  gem 'rails_12factor'
 end

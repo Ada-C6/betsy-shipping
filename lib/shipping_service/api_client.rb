@@ -1,3 +1,5 @@
+require 'httparty'
+
 module ShippingService::APIClient
 
   FAKE_METHOD_DATA = [
@@ -7,16 +9,13 @@ module ShippingService::APIClient
     {id: 4, name: "FedEx 2 Day", cost: 68.46},
   ]
 
+
+
   def methods_for_order(order)
-    # The real implementation should use the order's
-    # shipping details, calculate the weight of every
-    # product in the order, and send that info to the API
-    # along with a pre-defined "source" address.
-    #
-    # Instead we'll just return the fake data from above
-    FAKE_METHOD_DATA.map do |data|
-      method_from_data(data)
-    end
+    options = HTTParty.post("https://serene-plateau-94831.herokuapp.com/shipping_quotes",
+      { :body => order.to_json,
+        :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}  })
+    return options.to_hash
   end
 
   def get_method(id)
