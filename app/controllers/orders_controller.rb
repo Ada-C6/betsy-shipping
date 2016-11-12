@@ -44,12 +44,14 @@ class OrdersController < ApplicationController
   end
 
   def shipping_select
+
     @order = current_order
-    @shipping_methods = ShippingService.methods_for_order(current_order)
+
+    @shipping_methods = Api_Wrapper.active_ship_call("98122", "seattle","WA", "US","US",@order.state, @order.city, @order.billing_zip)
   end
 
   def shipping_set
-    selected_method = ShippingService.get_method(order_shipping_params[:shipping_method_id])
+    selected_method = Api_Wrapper.get_method(order_shipping_params[:shipping_method_id])
 
     if !current_order.update(shipping_method: selected_method)
       redirect_to shipping_order_path, notice:
@@ -57,7 +59,7 @@ class OrdersController < ApplicationController
     else
       redirect_to order_confirmation_path(current_order)
     end
-  rescue ShippingService::ShippingMethodNotFound
+  rescue Api_Wrapper::ShippingMethodNotFound
     redirect_to shipping_order_path, notice:
       "Sorry something went wrong, please try again in a few moments."
   end

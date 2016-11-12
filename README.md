@@ -37,6 +37,7 @@ You can check the results of the code coverage tool by running (on MacOS):
 ```bash
 open coverage/index.html
 ```
+As of 11.7.16 = 32.39%
 
 ### Deployment
 These are the instructions for deploying this project to Heroku. Alternative deployment platforms will likely require different instructions.

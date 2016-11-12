@@ -2,13 +2,22 @@
 
 <h4>Please select one of the following shipping options:</h4><br>
 <%= form_tag shipping_order_path, method: :patch, :class => "form-horizontal center" do %>
+
   <% @shipping_methods.each do |method| %>
+
     <div class="form-group">
-      <%= label_tag :shipping_method_id, shipping_method_display(method), class: "col-xs-4 control-label" %>
+
+      <%=label_tag :shipping_method_id, shipping_method_display(method), class: "col-xs-4 control-label" %>
+
+
+
       <div class="col-xs-4">
+
         <%= radio_button_tag :shipping_method_id, method.id %>
+
       </div>
     </div>
+
   <% end %>
 
   <%= submit_tag "Complete Purchase", class: "btn btn-success" %>
