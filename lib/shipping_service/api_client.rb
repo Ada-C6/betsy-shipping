@@ -1,5 +1,5 @@
 module ShippingService::APIClient
-
+  BASE_URL = "https://qlw-shipping-service.herokuapp.com/"
   FAKE_METHOD_DATA = [
     {id: 1, name: "UPS Ground", cost: 20.41},
     {id: 2, name: "UPS Second Day Air", cost: 82.71},
@@ -12,9 +12,16 @@ module ShippingService::APIClient
     # shipping details, calculate the weight of every
     # product in the order, and send that info to the API
     # along with a pre-defined "source" address.
+
     #
+
     # Instead we'll just return the fake data from above
-    FAKE_METHOD_DATA.map do |data|
+    total_weight= order.orderitems.inject(0) { |sum, item| item.product.weight}
+    url = BASE_URL + "show?" + "weight=#{total_weight}" + "&to=#{order.billing_zip}"  +"&service=#{'usps'}"
+
+    api_data = HTTParty.get(url)
+    puts api_data.inspect
+    api_data.map do |data|
       method_from_data(data)
     end
   end
@@ -40,7 +47,7 @@ module ShippingService::APIClient
       raise ShippingService::ShippingMethodNotFound.new
     end
 
-    FAKE_METHOD_DATA.select { |data| data[:id] == id.to_i }.first
+    api_data.select { |data| data[:id] == id.to_i }.first
   end
 
   def method_from_data(data)
